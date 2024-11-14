@@ -10,7 +10,7 @@ Sau khi đăng nhập, mức nước và nhiệt độ trong thời gian thực 
   "temperature": ...
 }
 
-- Bơm nước thủ công: {"type": "manualPump", "token": "...", "action": "..."}
+- Bơm nước thủ công: {"type": "manualPump", "token": "...", "action": "..."} với action là "start" hoặc "stop"
 
 - Bơm nước tự động: {"type": "manualPump", "token": "...", "minLevel": "...", "maxLevel": "..."}
 
