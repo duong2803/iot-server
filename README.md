@@ -9,7 +9,7 @@ Server xử lí hệ thống bơm nước iot sử dụng websocket
 }
 
 - Trả về:
-- 
+
 {
   "type": "loginSuccess",
    "token": "..."
