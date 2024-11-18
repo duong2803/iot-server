@@ -12,6 +12,19 @@ router.get('/', authMiddleware, async (req, res) => {
     res.json(logs);
 });
 
+// Logs thời gian thực
+router.get('/realtime', authMiddleware, async (req, res) => {
+    try {
+        const latestLog = await SensorData.findOne().sort({ timestamp: -1 });
+        if (!latestLog) {
+            return res.status(404).json({ message: 'No data found' });
+        }
+        res.json(latestLog);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
 // Xuất file CSV
 router.get('/export', authMiddleware, async (req, res) => {
     const { startTime, endTime } = req.query;
