@@ -25,6 +25,79 @@ router.get('/realtime', authMiddleware, async (req, res) => {
     }
 });
 
+// Thêm thông số lượng nước
+router.post('/addlog', authMiddleware, async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { waterLevel, temperature, pumpState } = req.body;
+
+        // Validate required fields
+        if (waterLevel === undefined || temperature === undefined) {
+            return res.status(400).json({ message: 'waterLevel and temperature are required' });
+        }
+
+        // Create a new SensorData document
+        const newLog = new SensorData({
+            waterLevel,
+            temperature,
+            pumpState, // Optional: will default to 'OFF' if not provided
+        });
+
+        // Save the document to the database
+        const savedLog = await newLog.save();
+
+        // Respond with the saved document
+        res.status(201).json(savedLog);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: 'Failed to add log', error });
+    }
+});
+
+router.post('/update-water-level', authMiddleware, async (req, res) => {
+    // const { distanceToBottom, distanceToTop, currentDistance } = req.body;
+
+    const {waterLevel} = req.body;
+    // if (!distanceToBottom || !distanceToTop || !currentDistance)
+    //     return res.status(400).json({ message: 'Missing parameters' });
+
+    if (!waterLevel)
+        return res.status(400).json({ message: 'Missing parameters' });
+
+    // const waterLevel = ((distanceToBottom - currentDistance) / (distanceToBottom - distanceToTop)) * 100;
+    res.json({ waterLevel: Math.round(waterLevel) });
+});
+
+router.post('/addlog', authMiddleware, async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { waterLevel, temperature, pumpState } = req.body;
+
+        // Validate required fields
+        if (waterLevel === undefined || temperature === undefined) {
+            return res.status(400).json({ message: 'waterLevel and temperature are required' });
+        }
+
+        // Create a new SensorData document
+        const newLog = new SensorData({
+            waterLevel,
+            temperature,
+            pumpState, // Optional: will default to 'OFF' if not provided
+            timestamp: new Date(), // Explicitly set the current timestamp
+        });
+
+        // Save the document to the database
+        const savedLog = await newLog.save();
+
+        // Respond with the saved document
+        res.status(201).json(savedLog);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: 'Failed to add log', error });
+    }
+});
+
+
 // Xuất file CSV
 router.get('/export', authMiddleware, async (req, res) => {
     const { startTime, endTime } = req.query;
