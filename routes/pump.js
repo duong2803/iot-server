@@ -1,29 +1,31 @@
 const express = require('express');
 const SensorData = require('../models/SensorData');
-
+// const { arduinoSocket } = require('../server'); // Import WebSocket from server.js
 const authMiddleware = require('../middleware/authMiddleware')
 const router = express.Router();
 
-const handleTurnOnPump = (state) => {
-    if (state == "ON") {
-        // Bật máy bơm lên
-    } else if (state == "OFF") {
-        // Tắt máy bơm đi
+
+
+const handleTurnOnPump = (action) => {
+    const { ws } = require('../server');
+    if (!ws) {
+        console.log(ws)
+        ws.send("alo")
     }
 }
 
 // Điều khiển bơm
-router.post('/manual', authMiddleware, async (req, res) => {
-    const { action } = req.body; // ON hoặc OFF
-    if (!['ON', 'OFF'].includes(action)) return res.status(400).json({ message: 'Invalid action' });
+// router.post('/manual', authMiddleware, async (req, res) => {
+//     const { action } = req.body; // ON hoặc OFF
+//     if (!['ON', 'OFF'].includes(action)) return res.status(400).json({ message: 'Invalid action' });
 
-    //   const newState = await SensorData.create({ pumpState: action, timestamp: new Date() });
-    handleTurnOnPump()
-    res.json({
-        "message": "success",
-        "status": action
-    });
-});
+//     //   const newState = await SensorData.create({ pumpState: action, timestamp: new Date() });
+//     handleTurnOnPump(action)
+//     res.json({
+//         "message": "success",
+//         "status": action
+//     });
+// });
 
 // Bơm tự động
 router.post('/auto', authMiddleware, async (req, res) => {
