@@ -13,14 +13,14 @@ router.get('/', authMiddleware, async (req, res) => {
 });
 
 // Cập nhật mực nước (theo phép tính)
-router.post('/update-water-level', authMiddleware, async (req, res) => {
-    const { distanceToBottom, distanceToTop, currentDistance } = req.body;
+// router.post('/update-water-level', authMiddleware, async (req, res) => {
+//     const { distanceToBottom, distanceToTop, currentDistance } = req.body;
 
-    if (!distanceToBottom || !distanceToTop || !currentDistance)
-        return res.status(400).json({ message: 'Missing parameters' });
+//     if (!distanceToBottom || !distanceToTop || !currentDistance)
+//         return res.status(400).json({ message: 'Missing parameters' });
 
-    const waterLevel = ((distanceToBottom - currentDistance) / (distanceToBottom - distanceToTop)) * 100;
-    res.json({ waterLevel: Math.round(waterLevel) });
-});
+//     const waterLevel = ((distanceToBottom - currentDistance) / (distanceToBottom - distanceToTop)) * 100;
+//     res.json({ waterLevel: Math.round(waterLevel) });
+// });
 
 module.exports = router;

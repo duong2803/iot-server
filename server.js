@@ -50,14 +50,6 @@ wss.on('connection', (ws) => {
 app.post('/pump/manual', (req, res) => {
     const { action } = req.body; // Expect "ON" or "OFF"
     console.log(`action: ${action}`)
-    // if (!['ON', 'OFF'].includes(action)) {
-    //     return res.status(400).json({ message: 'Invalid action' });
-    // }
-
-    // if (!arduinoSocket || arduinoSocket.readyState !== WebSocket.OPEN) {
-    //     return res.status(500).json({ message: 'Arduino is not connected' });
-    // }
-
     // Send command to Arduino
     if (arduinoSocket != null) {
         arduinoSocket.send(JSON.stringify({
@@ -71,3 +63,44 @@ app.post('/pump/manual', (req, res) => {
         "status": action
     });
 });
+
+app.post('pump/auto', authMiddleware, async (req, res) => {
+
+    if (arduinoSocket == null) {
+        res.json({
+            "message": "Ardunio device haven't connected"
+        })
+        return;
+    }
+
+    arduinoSocket.send(JSON.stringify({
+        "type": "auto",
+        "message": ""
+    }))
+    res.json({
+        "message": "success"
+    })
+});
+
+app.post('/update-water-level', authMiddleware, async (req, res) => {
+    if (arduinoSocket == null) {
+        res.json({
+            "message": "Ardunio device haven't connected"
+        })
+        return;
+    }
+    const { tankHeight } = req.body;
+
+    arduinoSocket.send(JSON.stringify({
+        "type": "tankHeight",
+        "message": tankHeight
+    }))
+
+    res.json({
+        "message": "success",
+        "tankHeight": tankHeight
+    })
+});
+
+
+
