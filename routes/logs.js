@@ -26,19 +26,19 @@ router.get('/realtime', authMiddleware, async (req, res) => {
 });
 
 
-router.post('/update-water-level', authMiddleware, async (req, res) => {
-    // const { distanceToBottom, distanceToTop, currentDistance } = req.body;
+// router.post('/update-water-level', authMiddleware, async (req, res) => {
+//     // const { distanceToBottom, distanceToTop, currentDistance } = req.body;
 
-    const { waterLevel } = req.body;
-    // if (!distanceToBottom || !distanceToTop || !currentDistance)
-    //     return res.status(400).json({ message: 'Missing parameters' });
+//     const { waterLevel } = req.body;
+//     // if (!distanceToBottom || !distanceToTop || !currentDistance)
+//     //     return res.status(400).json({ message: 'Missing parameters' });
 
-    if (!waterLevel)
-        return res.status(400).json({ message: 'Missing parameters' });
+//     if (!waterLevel)
+//         return res.status(400).json({ message: 'Missing parameters' });
 
-    // const waterLevel = ((distanceToBottom - currentDistance) / (distanceToBottom - distanceToTop)) * 100;
-    res.json({ waterLevel: Math.round(waterLevel) });
-});
+//     // const waterLevel = ((distanceToBottom - currentDistance) / (distanceToBottom - distanceToTop)) * 100;
+//     res.json({ waterLevel: Math.round(waterLevel) });
+// });
 
 router.post('/addlog', async (req, res) => {
     try {

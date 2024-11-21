@@ -64,7 +64,7 @@ app.post('/pump/manual', (req, res) => {
     });
 });
 
-app.post('pump/auto', authMiddleware, async (req, res) => {
+app.post('/pump/auto', async (req, res) => {
 
     if (arduinoSocket == null) {
         res.json({
@@ -82,23 +82,17 @@ app.post('pump/auto', authMiddleware, async (req, res) => {
     })
 });
 
-app.post('/update-water-level', authMiddleware, async (req, res) => {
-    if (arduinoSocket == null) {
-        res.json({
-            "message": "Ardunio device haven't connected"
-        })
-        return;
-    }
-    const { tankHeight } = req.body;
+app.post('/logs/update-water-level', async (req, res) => {
+    const { waterLevel } = req.body;
 
     arduinoSocket.send(JSON.stringify({
         "type": "tankHeight",
-        "message": tankHeight
+        "message": waterLevel
     }))
 
     res.json({
         "message": "success",
-        "tankHeight": tankHeight
+        "waterLevel": waterLevel
     })
 });
 
