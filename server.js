@@ -68,7 +68,7 @@ app.post('/pump/auto', async (req, res) => {
 
     if (arduinoSocket == null) {
         res.json({
-            "message": "Ardunio device haven't connected"
+            "message": "fail"
         })
         return;
     }
@@ -85,6 +85,12 @@ app.post('/pump/auto', async (req, res) => {
 app.post('/logs/update-water-level', async (req, res) => {
     const { waterLevel } = req.body;
 
+    if (arduinoSocket == null) {
+        res.json({
+            "message": "fail"
+        })
+        return;
+    }
     arduinoSocket.send(JSON.stringify({
         "type": "tankHeight",
         "message": waterLevel
